@@ -10,11 +10,15 @@
 
 import { ICommonObject, INodeData } from './Interface'
 
+/**
+ * Resolve and decrypt a stored credential by id.
+ *
+ * In the monorepo this decrypts the stored blob. Standalone, the
+ * appDataSource/decrypt helpers may surface a resolver on `options`;
+ * otherwise it returns an empty object and the node reads the value from
+ * nodeData.inputs (matching upstream getCredentialParam).
+ */
 export const getCredentialData = async (selectedCredentialId: string, options: ICommonObject): Promise<ICommonObject> => {
-    // In the monorepo this resolves and decrypts the stored credential by id.
-    // Standalone, the appDataSource/decrypt helpers may surface a resolver on
-    // `options`; otherwise return an empty object and let the node read the
-    // value from nodeData.inputs (matching upstream getCredentialParam).
     if (options && typeof options.getCredentialData === 'function') {
         return (await options.getCredentialData(selectedCredentialId)) ?? {}
     }
