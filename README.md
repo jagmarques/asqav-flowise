@@ -12,7 +12,7 @@ The node exposes one component, **Asqav Sign Action** (category Tools). When it 
 2. Calls the Asqav SDK: `init({ apiKey })`, `Agent.create({ name: 'flowise' })`, `agent.sign({ actionType, context })`.
 3. Returns the receipt so downstream nodes can record or display it.
 
-The SDK is HTTP-only and thin. All ML-DSA cryptography happens server-side at asqav.com. Only the values you pass in `context` are hashed into the receipt; nothing else from the flow travels.
+The SDK is HTTP-only and thin. All ML-DSA cryptography happens server-side at asqav.com. Only the values you pass in `context` are hashed into the receipt. Nothing else from the flow travels.
 
 ### Inputs
 
