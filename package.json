@@ -20,7 +20,7 @@
         "name": "Asqav",
         "email": "info@asqav.com"
     },
-    "main": "dist/index.js",
+    "main": "dist/src/index.js",
     "engines": {
         "node": ">=18"
     },
