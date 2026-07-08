@@ -32,7 +32,8 @@
     "files": [
         "dist",
         "README.md",
-        "LICENSE"
+        "LICENSE",
+        "CHANGELOG.md"
     ],
     "dependencies": {
         "@asqav/sdk": "^0.8.0"
