@@ -11,15 +11,16 @@ This package is built and maintained by the Asqav team. Asqav is the company beh
 The node exposes one component, **Asqav Sign Action** (category Tools). When it runs it:
 
 1. Reads your Asqav API key from a Flowise credential.
-2. Calls the Asqav SDK: `init({ apiKey })`, `Agent.create({ name: 'flowise' })`, `agent.sign({ actionType, context })`.
+2. Posts two HTTPS calls to the Asqav API: `POST /agents/create` then `POST /agents/{agent_id}/sign`.
 3. Returns the receipt so downstream nodes can record or display it.
 
-The SDK is HTTP-only and thin. All ML-DSA cryptography happens server-side at asqav.com. Only the values you pass in `context` are hashed into the receipt. Nothing else from the flow travels.
+All ML-DSA cryptography happens server-side at asqav.com. Only the values you pass in `context` are hashed into the receipt. Nothing else from the flow travels. The node has no runtime dependencies; it uses the global `fetch` (Node 18+).
 
 ### Inputs
 
 - **Action Type** (string, required): the action being signed, for example `api:call` or `tool:invoke`.
 - **Context** (JSON, optional): metadata describing the action. Accepts a JSON string or an object.
+- **Base URL** (string, optional): Asqav API base URL, defaults to `https://api.asqav.com/api/v1`. Override for a self-hosted Asqav instance.
 
 ### Output
 
@@ -47,14 +48,14 @@ Flowise components run inside the Flowise monorepo. To use this node, copy it in
 
 In the monorepo the node imports the real `src/Interface` and `src/utils` from `flowise-components`. The `src/Interface.ts` and `src/utils.ts` files in this repo are faithful local mirrors of those upstream files, included only so the node compiles and is unit tested standalone. They are not shipped into Flowise.
 
-Add `@asqav/sdk` to `packages/components/package.json`, then build with `pnpm build` from the Flowise root. Community nodes are surfaced in the UI when `SHOW_COMMUNITY_NODES=true` is set in the Flowise `.env`.
+The node is dependency-free (global `fetch` only), so no extra package needs to be added to the Flowise monorepo. Build the component with `pnpm build` from the Flowise root. Community nodes are surfaced in the UI when `SHOW_COMMUNITY_NODES=true` is set in the Flowise `.env`.
 
 ## Development
 
 ```bash
 npm install
 npm run build   # tsc -> dist/
-npm test        # vitest, mocks the SDK
+npm test        # vitest, mocks the HTTP calls
 ```
 
 ## License
