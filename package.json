@@ -2,7 +2,7 @@
     "name": "flowise-asqav",
     "version": "0.1.0",
     "description": "Flowise custom node that signs agent actions with Asqav, returning verifiable cryptographic compliance receipts.",
-    "license": "MIT",
+    "license": "Elastic-2.0",
     "homepage": "https://asqav.com",
     "repository": {
         "type": "git",
