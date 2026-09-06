@@ -1,12 +1,7 @@
 /**
- * Local mirror of the relevant slice of Flowise's
- * `packages/components/src/Interface.ts` (FlowiseAI/Flowise, main branch).
- *
- * These types are reproduced verbatim so the node compiles and is unit
- * tested standalone in this repo. When the node is dropped into the
- * Flowise monorepo at `packages/components/nodes/tools/AsqavSignAction/`
- * the import `'../../../src/Interface'` resolves to the upstream file and
- * this mirror is NOT shipped. See README "Where this lives".
+ * Minimal type declarations for this package's standalone tests.
+ * They are not a complete or verbatim copy of Flowise's interfaces.
+ * The documented installation uses Flowise's own src/Interface module.
  */
 
 export type CommonType = string | number | boolean | undefined | null

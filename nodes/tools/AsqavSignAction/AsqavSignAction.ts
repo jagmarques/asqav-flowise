@@ -1,5 +1,6 @@
-import { ICommonObject, INode, INodeData, INodeParams } from '../../src/Interface'
-import { getCredentialData, getCredentialParam } from '../../src/utils'
+import { DynamicTool } from '@langchain/core/tools'
+import { ICommonObject, INode, INodeData, INodeParams } from '../../../src/Interface'
+import { getCredentialData, getCredentialParam } from '../../../src/utils'
 
 const DEFAULT_BASE_URL = 'https://api.asqav.com/api/v1'
 
@@ -25,8 +26,8 @@ class AsqavSignAction_Tools implements INode {
         this.category = 'Tools'
         this.author = 'Asqav'
         this.description =
-            'Sign an agent action with Asqav (asqav.com) and return the cryptographic compliance receipt (signature id, verification URL, timestamp).'
-        this.baseClasses = [this.type]
+            'Request Asqav signing for the configured action and context. Returns the signing response without executing or gating another tool.'
+        this.baseClasses = [this.type, 'Tool']
         this.credential = {
             label: 'Connect Credential',
             name: 'credential',
@@ -47,7 +48,7 @@ class AsqavSignAction_Tools implements INode {
                 type: 'json',
                 optional: true,
                 description:
-                    'Optional JSON metadata describing the action. Only the values you pass are hashed into the receipt.'
+                    'Optional JSON context sent to Asqav as provided. It is not hashed or redacted locally.'
             },
             {
                 label: 'Base URL',
@@ -58,6 +59,14 @@ class AsqavSignAction_Tools implements INode {
                 description: 'Asqav API base URL. Defaults to the production endpoint. Override for a self-hosted Asqav instance.'
             }
         ]
+    }
+
+    async init(nodeData: INodeData, _input: string, options?: ICommonObject): Promise<DynamicTool> {
+        return new DynamicTool({
+            name: 'asqav_sign_action',
+            description: this.description + ' Input text does not change the configured action or context.',
+            func: async (input: string) => JSON.stringify(await this.run(nodeData, input, options))
+        })
     }
 
     async run(nodeData: INodeData, _input: string, options?: ICommonObject): Promise<string | ICommonObject> {
