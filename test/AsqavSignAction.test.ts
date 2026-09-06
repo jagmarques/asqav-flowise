@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-import * as nodeModule from '../nodes/AsqavSignAction/AsqavSignAction'
+import * as nodeModule from '../nodes/tools/AsqavSignAction/AsqavSignAction'
 const nodeClass = (nodeModule as any).nodeClass ?? (nodeModule as any).default?.nodeClass
 
 const DEFAULT_BASE = 'https://api.asqav.com/api/v1'
